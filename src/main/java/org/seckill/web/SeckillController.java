@@ -1,7 +1,6 @@
 package org.seckill.web;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.seckill.dto.ExposerDto;
 import org.seckill.dto.SeckillExecutionDto;
 import org.seckill.entity.Seckill;
@@ -62,15 +61,25 @@ public class SeckillController {
     @RequestMapping(value = "/{seckillId}/exposer",
         method = RequestMethod.POST,
         produces = {"application/json;charset=UTF-8"})
+    @ApiOperation(
+            value = "暴露秒杀地址",
+            notes = "暴露秒杀地址信息"
+            //httpMethod = "POST",
+            //response = SeckillResult.class
+    )
+    @ApiResponses( {
+            @ApiResponse(code = 404, message = "根据业务定制http404含义" )
+    } )
     @ResponseBody
-    public SeckillResult<ExposerDto> exposer(@PathVariable("seckillId") Long seckilllId) {
+    public SeckillResult<ExposerDto> exposer(
+            @ApiParam(required = true, name = "seckillId", value = "秒杀商品id") @PathVariable("seckillId") Long seckilllId) {
         SeckillResult<ExposerDto> result;
         try {
             ExposerDto exposerDto = seckillService.exportSeckillUrl(seckilllId);
-            result = new SeckillResult<ExposerDto>(true, exposerDto);
+            result = new SeckillResult<>(true, exposerDto);
         } catch (Exception e) {
             logger.error(e.getMessage());
-            result = new SeckillResult<ExposerDto>(false, e.getMessage());
+            result = new SeckillResult<>(false, e.getMessage());
         }
         return result;
     }
@@ -84,27 +93,27 @@ public class SeckillController {
                                     @CookieValue(value = "killPhone", required = false) Long phone) {
         //springmvc valid
         if (phone == null) {
-            return new SeckillResult<SeckillExecutionDto>(false, "未注册");
+            return new SeckillResult<>(false, "未注册");
         }
         SeckillResult<SeckillExecutionDto> result;
         try {
             // 调用存储过程
             SeckillExecutionDto seckillExecutionDto = seckillService.executeSeckillProcedure(seckillId, phone, md5);
-            return new SeckillResult<SeckillExecutionDto>(true, seckillExecutionDto);
+            return new SeckillResult<>(true, seckillExecutionDto);
         } catch (RepeatKillException e) {
             SeckillExecutionDto seckillExecutionDto = new SeckillExecutionDto(seckillId, SeckillStateEnum.REPEAT_KILL);
-            return new SeckillResult<SeckillExecutionDto>(true, seckillExecutionDto);
+            return new SeckillResult<>(true, seckillExecutionDto);
         } catch (SeckillCloseException e) {
             SeckillExecutionDto seckillExecutionDto = new SeckillExecutionDto(seckillId, SeckillStateEnum.END);
-            return new SeckillResult<SeckillExecutionDto>(true, seckillExecutionDto);
+            return new SeckillResult<>(true, seckillExecutionDto);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             SeckillExecutionDto seckillExecutionDto = new SeckillExecutionDto(seckillId, SeckillStateEnum.INNER_ERROR);
-            return new SeckillResult<SeckillExecutionDto>(true, seckillExecutionDto);
+            return new SeckillResult<>(true, seckillExecutionDto);
         }
     }
 
-    @RequestMapping(value = "/time/now", method = RequestMethod.GET)
+    @RequestMapping(value = "/time/now", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ApiOperation(
             value = "获取系统当前时间",
             httpMethod = "GET",
@@ -114,6 +123,6 @@ public class SeckillController {
     @ResponseBody
     public SeckillResult<Long> time() {
         Date now = new Date();
-        return new SeckillResult<Long>(true, now.getTime());
+        return new SeckillResult<>(true, now.getTime());
     }
 }

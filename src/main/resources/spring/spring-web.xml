@@ -33,5 +33,6 @@
     </bean>
 
     <!--4:扫描web相关的bean-->
-    <context:component-scan base-package="org.seckill.web"/>
+    <!--org.seckill.config包为中有swagger配置类,需要扫描-->
+    <context:component-scan base-package="org.seckill.web,org.seckill.config"/>
 </beans>
