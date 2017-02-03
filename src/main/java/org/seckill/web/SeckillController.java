@@ -63,15 +63,15 @@ public class SeckillController {
         produces = {"application/json;charset=UTF-8"})
     @ApiOperation(
             value = "暴露秒杀地址",
-            notes = "暴露秒杀地址信息"
+            notes = "暴露秒杀地址信息",
             //httpMethod = "POST",
-            //response = SeckillResult.class
+            response = SeckillResult.class
     )
     @ApiResponses( {
             @ApiResponse(code = 404, message = "根据业务定制http404含义" )
     } )
     @ResponseBody
-    public SeckillResult<ExposerDto> exposer(
+    public SeckillResult<?> exposer(
             @ApiParam(required = true, name = "seckillId", value = "秒杀商品id") @PathVariable("seckillId") Long seckilllId) {
         SeckillResult<ExposerDto> result;
         try {

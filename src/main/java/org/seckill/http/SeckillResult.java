@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 // 统一封装json结果,返回给前台;
 // 范型类型T是service与web层数据传递的DTO类型
-@ApiModel(value = "SeckillResult", description = "与前端数据交互对象")
+@ApiModel(description = "与前端数据交互对象")
 public class SeckillResult<T> {
 
     @ApiModelProperty(value = "接口调用是否成功,true表示成功", required = true)

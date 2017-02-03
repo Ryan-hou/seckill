@@ -2,6 +2,7 @@ package org.seckill.config.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.request.async.DeferredResult;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -27,6 +28,8 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter {
     public Docket seckillApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .forCodeGeneration(true)
+                .genericModelSubstitutes(DeferredResult.class)
+                .useDefaultResponseMessages(false)
                 //.pathMapping("/")
                 .select()
                 //Ignores controllers annotated with @CustomIgnore
