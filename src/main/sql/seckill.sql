@@ -2,7 +2,6 @@
 DELIMITER $$ -- console ; 转为 $$
 -- 定义存储过程
 -- 参数: in 输入参数;out 输出参数
--- row_count(): 返回上一条修改类型sql(delete,update,insert)
 -- row_count(): 返回上一条修改类型sql(delete,update,insert)的影响条数
 -- row_count: 0:未修改数据; >0:表示修改的行数; <0:sql错误/未执行修改sql
 -- r_result 的值与 SeckillStateEnum 的 state 保持一致
@@ -35,7 +34,7 @@ CREATE PROCEDURE `seckill`.`execute_seckill`
         SET r_result = 0; -- 秒杀结束
       ELSEIF (insert_count < 0) THEN
         ROLLBACK;
-        SET r_result = -2;
+        SET r_result = -2; -- 系统异常
       ELSE
         COMMIT;
         SET r_result = 1; -- 秒杀成功
