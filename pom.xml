@@ -164,6 +164,10 @@
       <version>3.2</version>
     </dependency>
 
+    <!-- 配置和使用 Swagger：
+    https://dzone.com/articles/swagger-make-developers-love
+    http://www.baeldung.com/swagger-2-documentation-for-spring-rest-api
+    -->
     <!--swagger-->
     <dependency>
       <groupId>io.springfox</groupId>
