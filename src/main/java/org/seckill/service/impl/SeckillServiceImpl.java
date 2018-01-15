@@ -5,7 +5,7 @@ import org.seckill.dao.SeckillDao;
 import org.seckill.dao.SuccessKilledDao;
 import org.seckill.dto.ExposerDto;
 import org.seckill.dto.SeckillExecutionDto;
-import org.seckill.dto.cache.RedisDao;
+import org.seckill.dao.cache.RedisDao;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.SuccessKilled;
 import org.seckill.enums.SeckillStateEnum;
