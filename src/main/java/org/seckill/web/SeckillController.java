@@ -1,5 +1,6 @@
 package org.seckill.web;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.*;
 import org.seckill.dto.ExposerDto;
 import org.seckill.dto.SeckillExecutionDto;
@@ -12,6 +13,7 @@ import org.seckill.service.SeckillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +36,16 @@ public class SeckillController {
 
     @Autowired
     private SeckillService seckillService;
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @ResponseBody
+    public Date test(@DateTimeFormat(pattern = "yyyy-MM-dd")
+               @RequestParam(value = "date")
+               @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8") Date date) {
+
+        logger.info("date = {}", date);
+        return date;
+    }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model) {
